@@ -1,0 +1,65 @@
+#!/bin/bash
+coins=100
+function creno() {
+
+function yn(){ read -p " would you like to play 
+agian " yn; if  [[ $yn = yes ]]; then creno; 
+elif  [[ $yn = no ]]; then echo " kk then thank for playing "; else echo " try agian " && yn; fi; }
+
+function usernum(){
+read -p "how many numbers would you like to pick? " tmpnum;
+usernum=();
+echo pick $tmpnum numbers between 1-80;
+for i in $(seq 1 $tmpnum); do read var1; usernum+=($var1);
+done
+}
+
+function winnum(){ wining=(); for i in $(seq 1 $tmpnum); do wining+=($((RANDOM%80+1)));
+ done; }
+
+function compary() {
+compare=()
+a=(${wining[@]});
+b=(${usernum[@]});
+ for x in "${a[@]}"; do
+ in=false;
+for y in "${b[@]}"; do
+ if [ $x = $y ];then
+ compare=($y);
+
+ echo you have ${#compare[@]} matches;
+ echo ${compare[@]};
+ fi;
+
+ done;
+ done;
+ }
+
+function betting() {
+echo you have $coins coins
+read -p " place your bets " bets
+if [[ ${#compare[@]} != 0 ]]
+then
+ let coins+=$bets
+elif  [[ ${#compare[@]} = 0 ]]
+then
+ let coins-=$bets
+fi;
+echo $coins
+}
+echo Hello and Weclcome to my game
+usernum
+winnum
+compary
+betting
+
+
+echo heres your numbers ${usernum[@]}
+echo heres the winning numbers ${wining[@]}
+
+echo and you your matches ${compare[@]}
+
+yn
+
+}
+
